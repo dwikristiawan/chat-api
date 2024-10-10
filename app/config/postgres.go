@@ -1,6 +1,7 @@
 package config
 
 import (
+	"chat-api/internal/model/entity"
 	"fmt"
 	"github.com/labstack/gommon/log"
 	"gorm.io/driver/postgres"
@@ -41,6 +42,32 @@ func OpenPostgresDatabaseConnection(pg Postgres) *gorm.DB {
 		log.Errorf("Err sqlDb.Ping> %v", err)
 		panic(err)
 	}
-
+	//err = db.Migrator().DropTable(&entity.Chats{})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//err = db.Migrator().DropTable(&entity.Users{})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//err = db.Migrator().DropTable(&entity.Messages{})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//err = db.Migrator().DropTable(&entity.Participants{})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//err = db.Migrator().DropTable(&entity.Readers{})
+	//if err != nil {
+	//	panic(err)
+	//}
+	err = db.AutoMigrate(&entity.Users{}, &entity.Chats{}, entity.Participants{}, entity.Messages{}, entity.References{})
+	if err != nil {
+		panic(err)
+	}
+	if db == nil {
+		fmt.Println("db nil")
+	}
 	return db
 }

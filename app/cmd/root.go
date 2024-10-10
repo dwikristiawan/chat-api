@@ -19,6 +19,8 @@ var (
 var (
 	rootConfig *config.Root
 	database   *gorm.DB
+	//webSocketHandler websocket.WebSocketController
+	//broadcastService service.BroadcastService
 )
 
 func Execute() {
@@ -35,10 +37,11 @@ func configReader() {
 func init() {
 	cobra.OnInitialize(func() {
 		configReader()
-		initPosgresDb()
+		initPostgresDb()
+		initFeature()
 	})
 }
-func initPosgresDb() {
+func initPostgresDb() {
 	log.Infof("Initialize postgres")
 	database = config.OpenPostgresDatabaseConnection(config.Postgres{
 		Host:                  rootConfig.Postgres.Host,
@@ -50,4 +53,18 @@ func initPosgresDb() {
 		MaxOpenConnection:     rootConfig.Postgres.MaxOpenConnection,
 		MaxIdleConnection:     rootConfig.Postgres.MaxIdleConnection,
 	})
+	if database == nil {
+		fmt.Println("Cannot Initialize postgres database")
+	}
+}
+func initFeature() {
+	//webSocketHandler = websocket.NewWebSocketController()
+	//broadcastService = service.NewBroadcastService(postgres.NewChatRepository(database), postgres.NewMessageRepository(database), webSocketHandler)
+	//a := postgres.NewMessageRepository(database)
+	//b := uint(1)
+	//if database == nil {
+	//	fmt.Println("database is nil")
+	//}
+	//bc := a.SelectMessagePackById(context.Background(), &b)
+	//fmt.Println(bc)
 }

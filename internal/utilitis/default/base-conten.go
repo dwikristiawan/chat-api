@@ -1,6 +1,6 @@
 package _default
 
-import "github.com/labstack/echo/v4"
+import "net/http"
 
 type BaseContent struct {
 	Code        int
@@ -9,6 +9,11 @@ type BaseContent struct {
 	Data        interface{}
 }
 
-func BaseHandlerReturn(ctx echo.Context, content *BaseContent) error {
-
+func InternalError(err error) *BaseContent {
+	return &BaseContent{
+		Code:        http.StatusInternalServerError,
+		Status:      "failed",
+		Description: err.Error(),
+		Data:        nil,
+	}
 }

@@ -2,8 +2,9 @@ package entity
 
 import "gorm.io/gorm"
 
-type Participant struct {
+type Participants struct {
 	gorm.Model
-	UserId uint `json:"user_id"`
-	ChatId uint `json:"chat_id"`
+	ChatId uint  `json:"chat_id"`
+	UserId uint  `json:"user_id"`
+	Users  Users `gorm:"foreignKey:UserId" json:"user"`
 }

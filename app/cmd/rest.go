@@ -23,8 +23,10 @@ func restServer(cmd *cobra.Command, args []string) {
 	var e = echo.New()
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{""},
-		AllowHeaders: []string{""},
+		AllowMethods: []string{echo.GET, echo.POST},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}))
+	//websocket.HandlerWsInit(e, webSocketHandler)
 
 	err := e.Start(rootConfig.Server.HostServer + ":" + rootConfig.Server.PortServer)
 	if err != nil {

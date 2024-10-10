@@ -1,8 +1,16 @@
 package entity
 
-import "gorm.io/gorm"
+import (
+	"chat-api/internal/model/entity/model"
+	"gorm.io/gorm"
+)
 
-type chats struct {
+type Chats struct {
 	gorm.Model
-	Name string `json:"name"`
+	TypeChat     model.TypeChat `json:"typeChat"`
+	Name         *string        `json:"name"`
+	UserId       uint           `json:"userId"`
+	Maker        Users          `gorm:"foreignKey:UserId" json:"created"`
+	Participants []Participants `gorm:"foreignKey:ChatId" json:"participants"`
+	Reference    []References   `gorm:"foreignKey:ChatId" json:"Reference"`
 }
